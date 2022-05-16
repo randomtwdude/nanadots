@@ -1,0 +1,27 @@
+configuration {
+
+	drun {
+		display-name: "";
+	}
+
+	window {
+		display-name: "";
+	}
+
+	dmenu {
+		display-name: "";
+	}
+
+	timeout {
+		delay: 10;
+		action: "kb-cancel";
+	}
+
+	modi: "drun,window";
+	
+	font: "Balsamiq Sans 18";
+
+	icon-theme: "Papirus";
+}
+
+@theme "~/.config/rofi/theme.rasi"

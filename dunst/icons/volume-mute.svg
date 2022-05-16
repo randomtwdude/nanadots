@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#96CDFB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-volume-x" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" style="stroke: rgb(237, 175, 151);"/>
+  <line x1="23" y1="9" x2="17" y2="15" style="stroke: rgb(237, 175, 151);"/>
+  <line x1="17" y1="9" x2="23" y2="15" style="stroke: rgb(237, 175, 151);"/>
+</svg>

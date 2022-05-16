@@ -1,0 +1,72 @@
+configuration {
+	
+	font: "Balsamiq Sans 32";
+
+}
+
+@theme "/dev/null"
+
+* {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	spacing: 0;
+
+	bg:	#495159;
+	fg:	#FAC9B8;
+	button:	#EDAF97;
+
+	background-color: @bg;
+	text-color: @fg;
+}
+
+window {
+	transparency: "real";
+	border-radius: 0px;
+	width: 50%;
+	padding: 20px;
+}
+
+mainbox {
+	children: [ listview ];
+	spacing: 2%;
+	padding: 2% 1% 2% 1%;
+}
+
+listview {
+	columns:                        1;
+	lines:	                        3;
+	cycle:                          true;
+	dynamic:                        true;
+	layout:                         horizontal;
+}
+
+
+element {
+	children: [ element-icon, element-text ];
+	orientation:                    vertical;
+	border-radius:                  0%;
+	padding:                        1.5% 2% 1.5% 2%;
+	// u r d l
+}
+
+element-icon {
+	size: 256px;
+	background-color: inherit;
+	padding: 2px 15px;
+}
+
+element-text {
+	expand:                         false;
+	vertical-align:                 0.5;
+	horizontal-align:				0.5;
+	margin:                         0% 3% 0% 3%;
+	background-color:               inherit;
+    text-color:                     inherit;
+}
+
+element selected {
+	background-color:               @fg;
+	text-color:                     @bg;
+	border-radius:                  6px;
+}

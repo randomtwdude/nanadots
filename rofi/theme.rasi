@@ -1,0 +1,93 @@
+* {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	spacing: 0;
+
+	bg:	#495159;
+	fg:	#FAC9B8;
+	button:	#EDAF97;
+
+	background-color: @bg;
+	text-color: @fg;
+}
+
+window {
+	background-color: @bg;
+	transparency: "real";
+	border-radius: 0px;
+	width: 40%;
+	y-offset: 10px;
+	padding: 20px;
+	location: south;
+}
+
+mainbox {
+	children: [ inputbar, listview ];
+	spacing: 2%;
+	padding: 2% 1% 2% 1%;
+}
+
+inputbar {
+	children: [ prompt, entry ];
+	background-color: #545E67;
+	text-color: @fg;
+	expand: false;
+	border-radius:                  6px;
+	padding:                        8px;
+}
+
+prompt {
+	background-color: #A1E8CC;
+	text-color: @bg;
+	vertical-align: 0.5;
+	border-radius: 6px;
+	padding: 12px;
+}
+
+entry {
+	placeholder:					"Do something";
+	vertical-align: 				0.5;
+	expand:                         true;
+	padding:                        5px 2% 5px 2%;
+	background-color:               inherit;
+    placeholder-color:              @fg;
+}
+
+
+listview {
+	background-color: 				#00000000;
+	columns:                        1;
+	lines:	                        8;
+	cycle:                          false;
+	dynamic:                        true;
+	layout:                         vertical;
+}
+
+
+element {
+	children: [ element-icon, element-text ];
+	orientation:                    horizontal;
+	border-radius:                  0%;
+	padding:                        1.5% 0% 1.5% 0%;
+}
+
+element-icon {
+	size: 48px;
+	background-color: inherit;
+	padding: 2px 10px;
+}
+
+element-text {
+	expand:                         true;
+	vertical-align:                 0.5;
+	margin:                         0% 3% 0% 1.6%;
+	background-color:               inherit;
+    text-color:                     inherit;
+}
+
+element selected {
+	background-color:               @fg;
+	text-color:                     @bg;
+	border-radius:                  6px;
+}

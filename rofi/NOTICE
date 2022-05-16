@@ -1,0 +1,4 @@
+use this to send icons over dmenu modi:
+
+echo -en \
+	"[text]\0icon\x1f[/path/to/icon] | rofi -dmenu -show-icons
