@@ -16,6 +16,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 let g:Hexokinase_highlighters = ['virtual']
-let g:Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla,colour_names'
+let g:Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla'
+
+let g:airline_theme = 'nana'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
 call plug#end()
