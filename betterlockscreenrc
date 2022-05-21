@@ -16,7 +16,7 @@ quiet=false
 # default theme
 loginbox=40151166
 loginshadow=00000000
-locktext="Type password to unlock..."
+locktext="Welcome back! Type password..."
 font="Balsamiq Sans"
 ringcolor=eeeeeeff
 insidecolor=00000000
