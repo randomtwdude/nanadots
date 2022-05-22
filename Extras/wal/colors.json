@@ -1,0 +1,28 @@
+{
+    "wallpaper": "/home/starisant/wallpaper/nanahira2.png",
+    "alpha": "100",
+
+    "special": {
+        "background": "#401511",
+        "foreground": "#dff6eb",
+        "cursor": "#dff6eb"
+    },
+    "colors": {
+        "color0": "#495159",
+        "color1": "#FC8A7E",
+        "color2": "#DDBBA5",
+        "color3": "#FFA79E",
+        "color4": "#EDD6A7",
+        "color5": "#F3B3A7",
+        "color6": "#CFFFE9",
+        "color7": "#A9E5BC",
+        "color8": "#9caca4",
+        "color9": "#FC8A7E",
+        "color10": "#DDBBA5",
+        "color11": "#FFA79E",
+        "color12": "#EDD6A7",
+        "color13": "#F3B3A7",
+        "color14": "#CFFFE9",
+        "color15": "#A9E5BC"
+    }
+}
