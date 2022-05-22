@@ -20,7 +20,7 @@ Take some of this rice home if you want. Leave a star, I like Star.
 - **Compositor**: picom
 - **Lock screen**: betterlockscreen
 
-Other stuffs: nitrogen / pywal / pcmanfm / ncmpcpp / flameshot / spicetify / ntfd
+Other stuffs: fish with omf / nitrogen / pywal / pcmanfm / ncmpcpp / flameshot / spicetify / ntfd
 
 ## Dependencies
 ### Fonts
@@ -60,7 +60,31 @@ To be added.
 > For best immersion, alias paru to padoru
 
 ## Setup
-TODO: Write section
+Drop all files except `bin` and `gtk-theme` in `~/.config`.
+
+Drop the GTK theme where they go. `~/.icons` and `~/.themes` (Install lxappearance to change GTK theme if you're on a WM)
+
+Put content in `bin` in `~/.local/bin`(default path). Don't forget to make them executable.
+`chmod +x ~/.local/bin/*`
+
+You may want to add these to your session startup script (`.xprofile` or `.xinitrc`)
+
+- Wallpaper
+`nitrogen --restore &`
+- picom (compositor)
+`picom --experimental-backend &`
+- sxhkd (hotkeys)
+`sxhkd &`
+- pywal (color schemes)
+`wal -R &`
+- Media controls
+`playerctld deamon &`
+- Charger event notifications
+`$HOME/.local/bin/chargernotif &`
+- Weather module and notification
+`ntfd &`
+- Your favourite WM
+`exec bspwm`
 
 ## Keybinds
 Basically just default sxhkd keybinds, so...
