@@ -67,6 +67,8 @@ Drop all files except `Extras` in `~/.config`.
 - GTK icons and themes go to `~/.icons` and `~/.themes`. (Install lxappearance to change GTK theme if you're on a WM)
 - Scripts under `bin` go to `~/.local/bin` by default. Don't forget to `chmod +x`.
 - `vim-airline` contains color scheme for vim-airline, put it under `~/.vim/plugged/vim-airline-themes/autoload/airline/themes`
+- `wal` contains `colors.json` for pywal
+- `wallpaper`
 
 You want to add these to your session startup script (`.xprofile` or `.xinitrc`)
 
