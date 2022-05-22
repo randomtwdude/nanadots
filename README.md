@@ -60,31 +60,20 @@ To be added.
 > For best immersion, alias paru to padoru
 
 ## Setup
-Drop all files except `bin` and `gtk-theme` in `~/.config`.
+Drop all files except `Extras` in `~/.config`.
 
-Drop the GTK theme where they go. `~/.icons` and `~/.themes` (Install lxappearance to change GTK theme if you're on a WM)
+`Extras` include the GTK theme and scripts. GTK icons and themes go to `~/.icons` and `~/.themes`. (Install lxappearance to change GTK theme if you're on a WM)
 
-Put content in `bin` in `~/.local/bin`(default path). Don't forget to make them executable.
-`chmod +x ~/.local/bin/*`
+Scripts under `bin` go to `~/.local/bin` by default. Don't forget to `chmod +x`.
 
-You may want to add these to your session startup script (`.xprofile` or `.xinitrc`)
+You want to add these to your session startup script (`.xprofile` or `.xinitrc`)
 
-- Wallpaper
-`nitrogen --restore &`
-- picom (compositor)
-`picom --experimental-backend &`
-- sxhkd (hotkeys)
-`sxhkd &`
-- pywal (color schemes)
-`wal -R &`
 - Media controls
 `playerctld deamon &`
 - Charger event notifications
 `$HOME/.local/bin/chargernotif &`
 - Weather module and notification
 `ntfd &`
-- Your favourite WM
-`exec bspwm`
 
 ## Keybinds
 Basically just default sxhkd keybinds, so...
