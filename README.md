@@ -27,7 +27,7 @@ Other stuffs: fish with omf / nitrogen / pywal / pcmanfm / ncmpcpp / flameshot /
 Fonts used:
 - **Terminal**: [Cascadia Code](https://github.com/microsoft/cascadia-code)
 - **Bar**: Mononoki Nerd Font, *Source Han Sans (for east Asian characters support)*
-- **Icons**: [Feather](https://github.com/feathericons/feather), Nerd Font, *Material Icons & Weather Icons (for weather module on the bar)*
+- **Icons**: [Feather](https://github.com/feathericons/feather), Nerd Font, *Material Icons (for weather module on the bar)*
 - **Rofi & some others**: Balsamiq Sans
 
 ### Customization
