@@ -1,0 +1,21 @@
+#!/bin/bash
+
+dunstify -a "updates" -u low -i "$HOME/.config/dunst/icons/nautidoru.png" "Padoru" "Looking for updates..."
+
+update=$(checkupdates)
+STATUS=$?
+
+if [ "$STATUS" -eq 0 ]
+then
+	REPLY=$(dunstify -a "updates" -u low --action="u,Update" --action="i,Sod off" -i "$HOME/.config/dunst/icons/nautidoru.png" "Padoru" "Updates for you!")
+
+	case "$REPLY" in
+	"u")
+		kitty paru
+		;;
+	"i")
+		;;
+	"2")
+		;;
+	esac
+fi

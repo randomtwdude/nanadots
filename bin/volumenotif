@@ -1,0 +1,16 @@
+#!/bin/bash
+
+vol=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -o '[^ ]*%' | head -1)
+volume=${vol%\%}
+
+if [[ "$volume" -eq "0" ]]
+then
+	icon="$HOME/.config/dunst/icons/volume-mute.svg"
+elif [[ "$volume" -lt "100" ]]
+then
+	icon="$HOME/.config/dunst/icons/volume-normal.svg"
+else
+	icon="$HOME/.config/dunst/icons/volume-max.svg"
+fi
+
+dunstify -a "volume" -u low -i "$icon" -r 9992 -h int:value:"$volume" "Volume: $volume%" -t 2000

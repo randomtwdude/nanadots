@@ -1,0 +1,23 @@
+#!/bin/bash
+
+PREV=$(cat /sys/class/power_supply/AC0/online)
+
+while [ true ]
+do
+	CURR=$(cat /sys/class/power_supply/AC0/online)
+
+	if [ $CURR -ne $PREV ]
+	then
+		if [ $CURR -eq 1 ]
+		then
+			dunstify -a "charger" -u low -i "$HOME/.config/dunst/icons/heart.svg" "Hey," "charger connected!" -t 2000
+		else
+			dunstify -a "charger" -u low -i "$HOME/.config/dunst/icons/bell.svg" "Hey," "charger disconnected!" -t 2000
+		fi
+
+		PREV=$(echo $CURR)
+	else
+		sleep 3
+		continue
+	fi
+done

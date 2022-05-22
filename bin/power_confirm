@@ -1,0 +1,20 @@
+#!/bin/sh
+
+action=$(printf "Cancel\0icon\x1f$HOME/.config/rofi/icons/star.png\nGoodbye!\0icon\x1f$HOME/.config/rofi/icons/moon.png\nCancel\0icon\x1f$HOME/.config/rofi/icons/star.png" | rofi -dmenu -i -show-icons -theme-str '@import "powermenu.rasi"')
+
+
+if [ "$1" = "shutdown" ]
+then
+	case "$action" in
+		"Goodbye!") shutdown now ;;
+		"Cancel") $HOME/.local/bin/powermenu ;;
+		*) exit 1 ;;
+	esac
+elif [ "$1" = "reboot" ]
+then
+	case "$action" in
+		"Goodbye!") reboot ;;
+		"Cancel") $HOME/.local/bin/powermenu ;;
+		*) exit 1 ;;
+	esac
+fi

@@ -1,0 +1,215 @@
+#!/usr/bin/env python3
+
+import os
+import random
+import re
+import subprocess
+import sys
+import threading
+import time
+
+import gi
+gi.require_version("Playerctl", "2.0")
+from gi.repository import Playerctl, GLib
+import vlc
+
+# trying to ensure only a single instance runs at a time
+# https://stackoverflow.com/a/1662504
+try:
+    import socket
+    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    s.bind("\0spotifyc_mute_ads")
+except socket.error as e:
+    print("This process is already running")
+    sys.exit(0)
+
+
+class MuteSpotifyAds:
+    def __init__(self, alt_music_dir=None, debug=False):
+        self.manager = Playerctl.PlayerManager()
+        self.alt_music_dir = alt_music_dir
+        self.spotify_bound = False
+        self.debug = debug
+
+        self.current = { "ad": False }
+        self.previous = { "ad": False }
+
+        for player_name in self.manager.props.player_names:
+            if player_name.name == "spotify":
+                spotify = Playerctl.Player.new_from_name(player_name)
+                spotify.connect("metadata", self.mute_ads, self.manager)
+                self.spotify_bound = True
+
+                self.log("Found Spotify, handler connected")
+
+                break
+
+        self.manager.connect("name-appeared", self.bind_player)
+        self.manager.connect("player-vanished", self.unbind_player)
+
+        main = GLib.MainLoop()
+        main.run()
+
+
+    def log(self, data):
+        if self.debug:
+            print(data)
+
+
+    def bind_player(self, manager, player_name):
+        """
+        Runs on "name-appeared"
+        Used to listen for new players when spotify isn't already running
+        """
+
+        if not self.spotify_bound and player_name.name == "spotify":
+            spotify = Playerctl.Player.new_from_name(player_name)
+            spotify.connect("metadata", self.mute_ads, self.manager)
+            self.manager.manage_player(spotify)
+            self.log("Spotify started, handler connected")
+
+
+    def unbind_player(self, manager, player):
+        """
+        Runs on "player-vanished"
+        Used to set a flag which will allow searching for spotify if it
+            starts again
+        """
+
+        if player.props.player_name == "spotify":
+            self.spotify_bound = False
+            self.log("Spotify stopped")
+
+
+    def play_alt_song(self):
+        """
+        This function plays a song from the 'alt_music_dir' directory
+            using vlc
+        """
+
+        self.log("::play_alt_song")
+        # assuming that alt_music_dir contains only music files
+        music_file_path = random.choice(os.listdir(self.alt_music_dir))
+
+        vlc_player = vlc.MediaPlayer("file://" + os.path.join(self.alt_music_dir, music_file_path))
+        vlc_player.audio_set_volume(100)
+        vlc_player.play()
+        # let vlc start playing
+        # reqd otherwise vlc reports length to be 0.0
+        time.sleep(1)
+        length = vlc_player.get_length() / 1000
+
+        self.log(f"{music_file_path}:{length}")
+
+        time.sleep(length)
+
+
+    def get_spotify_sink(self):
+        """
+        This function returns the audio 'sink-input' for spotify
+        """
+
+        pactl_out = subprocess.check_output(["pactl", "list", "sink-inputs"]).decode().strip().split("\n")
+        rgx = re.compile(r'(^Sink Input)|(\s+media.name = "Spotify"$)')
+
+        name_sink_pairs = [ text for text in pactl_out if rgx.match(text) ]
+
+        sink = ''
+        s = ''
+
+        for ns in name_sink_pairs:
+            if "Spotify" in ns:
+                sink = s.split("#")[1]
+            else:
+                s = ns
+
+        self.log("::get_spotify_sink\n\tsink: " + sink)
+        return sink
+
+
+    def mute_spotify(self):
+        """
+        This function mutes spotify
+        Only spotify, not system volume
+        """
+
+        self.log("::mute_spotify")
+        subprocess.run(["pactl", "set-sink-input-mute", self.get_spotify_sink(), "1"])
+
+
+    def unmute_spotify(self):
+        """
+        This function unmutes spotify
+        Only spotify, not system volume
+        """
+
+        self.log("::unmute_spotify")
+        subprocess.run(["pactl", "set-sink-input-mute", self.get_spotify_sink(), "0"])
+
+
+    def handle_ad(self, player):
+        self.log("::handle_ad")
+        self.mute_spotify()
+        self.play_alt_song()
+        player.play()
+        self.unmute_spotify()
+
+
+    def mute_ads(self, player, metadata, manager):
+        """
+        The handler for whenever 'metadata' of spotify changes
+
+        The current != self.current check is required since it
+            got fired 4-5 times when a new song started playing.
+            This check ensures that spotify isn't unmuted unnecessarily
+        """
+
+        artist = metadata['xesam:artist'][0]
+        title = metadata['xesam:title']
+        is_ad = self.is_ad(artist, title)
+
+        current = { "artist": artist, "title": title, "ad": is_ad }
+
+        if current != self.current:
+            self.log("::mute_ads metadata changed")
+            self.previous = self.current
+            self.current = current
+            self.log(f"{self.current}")
+
+            if self.alt_music_dir is not None:
+                if is_ad:
+                    if threading.activeCount() == 1:
+                        threading.Thread(target=self.handle_ad, args=(player,)).start()
+                else:
+                    if self.previous["ad"]:
+                        player.pause()
+            else:
+                if is_ad:
+                    self.mute_spotify()
+                else:
+                    if self.previous["ad"]:
+                        self.unmute_spotify()
+
+
+    def is_ad(self, artist, title):
+        """
+        The only things I saw whenever an ad on spotify started playing
+        """
+
+        ad = (artist == "" and (title == "Advertisement" or title == "Spotify"))
+
+        return ad
+
+
+if __name__ == '__main__':
+    alt_music_dir = ""
+
+    if len(sys.argv) == 2:
+        alt_music_dir = sys.argv[1]
+
+    if not alt_music_dir or not os.path.isdir(alt_music_dir):
+        alt_music_dir = None
+
+    debug = os.environ.get("SPOTIFYC_DEBUG")
+
+    MuteSpotifyAds(alt_music_dir, bool(debug))

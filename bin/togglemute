@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mute=$(printf "%s" $(pactl get-sink-mute @DEFAULT_SINK@))
+
+if [ $mute = "Mute:yes" ]
+then
+	pactl set-sink-mute @DEFAULT_SINK@ 0
+else
+	pactl set-sink-mute @DEFAULT_SINK@ 1
+fi

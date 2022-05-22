@@ -1,0 +1,10 @@
+#!/bin/sh
+
+action=$(printf "Shutdown\0icon\x1f$HOME/.config/rofi/icons/poweroff.png\nRestart\0icon\x1f$HOME/.config/rofi/icons/reboot.png\nLock\0icon\x1f$HOME/.config/rofi/icons/lock.png" | rofi -dmenu -i -show-icons -theme-str '@import "powermenu.rasi"')
+
+case "$action" in
+	"Shutdown") $HOME/.local/bin/power_confirm shutdown ;;
+	"Restart") $HOME/.local/bin/power_confirm reboot ;;
+	"Lock") betterlockscreen --lock blur ;;
+	*) exit 1 ;;
+esac
