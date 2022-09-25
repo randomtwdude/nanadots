@@ -53,6 +53,9 @@ XF86AudioLowerVolume
 XF86AudioMute
 	$HOME/.local/bin/togglemute
 
+XF86AudioMicMute
+	$HOME/.local/bin/mutenotif
+
 
 #
 # bspwm hotkeys
